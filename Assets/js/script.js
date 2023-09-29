@@ -1,9 +1,9 @@
-//start screen with button
-//eventlisten on button
-//when button clicked start quiz
+//start screen with button done
+//eventlisten on button done 
+//when button clicked start quiz done 
 //timer counts down one second itervals
-//eventlisten on each answer
-//if right new question
+//eventlisten on each answer done 
+//if right new question done 
 //if wrong subtract from time and next question
 //game over when time =0 go to high score screen
 //game over if end of questions
@@ -24,22 +24,38 @@ var questionSection=document.querySelector(".questions")
 
 var answersClass=document.querySelector(".answers");
 
+var timeEl=document.querySelector(".timer");
+
 var questionCounter=0;
+
+var secondsLeft=75;
 
 var questions={
     q1:{question1:"hom many blah blah blalh q1",
     answers:["blank text a1","blank text a2","blank text a3","blank text a4"],
-    correct:1
     },
     q2:{question2:"hom many blah blah blalh q2",
     asnwers:["blank text a1","blank text a2","blank text a3","blank text a4"],
-    correct:0
+    },
+    q3:{question3:"hom many blah blah blalh q3",
+    answers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    },
+    q4:{question4:"hom many blah blah blalh q4",
+    asnwers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    },
+    q5:{question5:"hom many blah blah blalh q5",
+    answers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    },
+    q6:{question6:"hom many blah blah blalh q6",
+    asnwers:["blank text a1","blank text a2","blank text a3","blank text a4"],
     },
 }
-
-var questionsArr=[[questions.q1.question1,questions.q1.answers],[questions.q2.question2,questions.q2.asnwers]];
-console.log(questionsArr[0]);
-console.log(questionsArr[0][1][1]);
+var correctAnswers=[0,1,2,3,0,2]
+var questionsArr=[[questions.q1.question1,questions.q1.answers],[questions.q2.question2,questions.q2.asnwers],
+[questions.q3.question3,questions.q3.answers],[questions.q4.question4,questions.q4.asnwers],
+[questions.q5.question5,questions.q5.answers],[questions.q6.question6,questions.q6.asnwers]];
+// console.log(questionsArr[0]);
+console.log(questionsArr);
 
 
 
@@ -48,6 +64,7 @@ startButton.addEventListener("click",function(event){
     event.stopPropagation();
     // mainTag.setAttribute("style","color:blue");
     startQuiz.textContent="";
+    setTime();
     displayQuestions();
     // console.log(questionSection);
     // console.log(questionSection.children[1].children[0]);
@@ -61,20 +78,20 @@ startButton.addEventListener("click",function(event){
         //     console.log([i]+" click answers works");
         // })
     // questionSection.children[1].children[0].textContent="works";
-    console.log("button works");
+    // console.log("button works");
 })
 
 answersClass.addEventListener("click",function(event){
     var element=event.target;
     if(element.matches("li")){
-        console.log(element.getAttribute("data-number"))
+        // console.log(element.getAttribute("data-number"))
         displayQuestions();
     }
 })
 
 function displayQuestions() {
 
-
+    console.log(questionCounter)
     questionSection.children[0].textContent=questionsArr[questionCounter][0];
     for (let i = 0; i < 4; i++) {
 
@@ -83,5 +100,21 @@ function displayQuestions() {
     }
 
     questionCounter++;
-    
 }
+
+function setTime(){
+    var timeInterval =setInterval(function(){
+        secondsLeft--;
+
+        timeEl.textContent="Time Remaining " +secondsLeft;
+        if(secondsLeft===0){
+            clearInterval(timeInterval);
+            highScore();
+        }
+    },1000);
+}
+
+function highScore(){
+
+}
+
