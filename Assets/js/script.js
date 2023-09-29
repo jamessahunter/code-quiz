@@ -21,6 +21,8 @@ var startButton=document.querySelector(".start-button");
 
 var questionSection=document.querySelector(".questions")
 
+var answersClass=document.querySelector(".answers");
+
 var questions={
     q1:{question1:"hom many blah blah blalh q1",
     answers:["blank text a1","blank text a2","blank text a3","blank text a4"],
@@ -40,8 +42,11 @@ startButton.addEventListener("click",function(event){
     // console.log(questionSection);
     // console.log(questionSection.children[1].children[0]);
     for (let i = 0; i < 4; i++) {
-        questionSection.children[1].children[i].textContent=questions.q1.answers[i];
-
+        questionSection.children[0].textContent=questions.q1.question1;
+        questionSection.children[1].children[i].textContent=[i+1] + ". " + questions.q1.answers[i];
+        answersClass.children[i].addEventListener("click",function(){
+            console.log([i]+" click answers works");
+        })
     }
     // questionSection.children[1].children[0].textContent="works";
     console.log("button works");
