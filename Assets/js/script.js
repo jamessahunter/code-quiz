@@ -1,7 +1,7 @@
 //start screen with button done
 //eventlisten on button done 
 //when button clicked start quiz done 
-//timer counts down one second itervals
+//timer counts down one second itervals done
 //eventlisten on each answer done 
 //if right new question done 
 //if wrong subtract from time and next question
@@ -20,11 +20,15 @@ var startQuiz=document.querySelector(".start-quiz");
 
 var startButton=document.querySelector(".start-button");
 
-var questionSection=document.querySelector(".questions")
+var questionSection=document.querySelector(".questions");
+
+var highScoreSection=document.querySelector(".highscore");
 
 var answersClass=document.querySelector(".answers");
 
 var timeEl=document.querySelector(".timer");
+
+
 
 var questionCounter=0;
 
@@ -51,11 +55,16 @@ var questions={
     },
 }
 var correctAnswers=[0,1,2,3,0,2]
+
 var questionsArr=[[questions.q1.question1,questions.q1.answers],[questions.q2.question2,questions.q2.asnwers],
 [questions.q3.question3,questions.q3.answers],[questions.q4.question4,questions.q4.asnwers],
 [questions.q5.question5,questions.q5.answers],[questions.q6.question6,questions.q6.asnwers]];
+
+var timeInterval;
+
+
 // console.log(questionsArr[0]);
-console.log(questionsArr);
+// console.log(questionsArr);
 
 
 
@@ -66,19 +75,6 @@ startButton.addEventListener("click",function(event){
     startQuiz.textContent="";
     setTime();
     displayQuestions();
-    // console.log(questionSection);
-    // console.log(questionSection.children[1].children[0]);
-
-    //maybe use event.target for ol activity 19
-
-    
-        // questionSection.children[0].textContent=questions.q1.question1;
-        // questionSection.children[1].children[i].textContent=[i+1] + ". " + questions.q1.answers[i];
-        // answersClass.children[i].addEventListener("click",function(){
-        //     console.log([i]+" click answers works");
-        // })
-    // questionSection.children[1].children[0].textContent="works";
-    // console.log("button works");
 })
 
 answersClass.addEventListener("click",function(event){
@@ -90,7 +86,10 @@ answersClass.addEventListener("click",function(event){
 })
 
 function displayQuestions() {
-
+    if (questionCounter>5){
+        highScore();
+        return;
+    }
     console.log(questionCounter)
     questionSection.children[0].textContent=questionsArr[questionCounter][0];
     for (let i = 0; i < 4; i++) {
@@ -98,12 +97,12 @@ function displayQuestions() {
         questionSection.children[1].children[i].textContent=[i+1] + ". " + questionsArr[questionCounter][1][i];
     
     }
-
     questionCounter++;
+
 }
 
 function setTime(){
-    var timeInterval =setInterval(function(){
+    timeInterval =setInterval(function(){
         secondsLeft--;
 
         timeEl.textContent="Time Remaining " +secondsLeft;
@@ -115,6 +114,21 @@ function setTime(){
 }
 
 function highScore(){
+    console.log("high score")
+    clearInterval(timeInterval);
+    console.log(secondsLeft);
+    timeEl.textContent="";
+    questionSection.textContent="";
+    const form = document.createElement('form');
+      
+      // Add input fields to the form
+      form.innerHTML = `
+        <label for="initials">Initials:</label>
+        <input type="text" id="initials" name="initials" required>
+      `;
+
+      // Append the form to the form container
+      highScoreSection.appendChild(form);
 
 }
 
