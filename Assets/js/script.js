@@ -28,7 +28,9 @@ var answersClass=document.querySelector(".answers");
 
 var timeEl=document.querySelector(".timer");
 
+var saveButton;
 
+var initialsInput;
 
 var questionCounter=0;
 
@@ -70,7 +72,7 @@ var timeInterval;
 
 // console.log(questionSection);
 startButton.addEventListener("click",function(event){
-    event.stopPropagation();
+    // event.stopPropagation();
     // mainTag.setAttribute("style","color:blue");
     startQuiz.textContent="";
     setTime();
@@ -124,11 +126,33 @@ function highScore(){
       // Add input fields to the form
       form.innerHTML = `
         <label for="initials">Initials:</label>
-        <input type="text" id="initials" name="initials" required>
+        <input type="text" id="initials" name="initials" placeholder="JH"/>
+        <button id="save">Save</button>
       `;
 
       // Append the form to the form container
       highScoreSection.appendChild(form);
 
+      saveButton=document.querySelector("#save");
+
+      initialsInput=document.querySelector("#initials");
+
+      console.log(saveButton);
+      saveButton.addEventListener("click",function(event){
+        event.preventDefault();
+        var initials = initialsInput.value;
+        localStorage.setItem("initials",initials);
+        console.log(initials);
+        renderInitials();
+    
+    })
+
 }
 
+
+
+
+
+function renderInitials(){
+
+}
