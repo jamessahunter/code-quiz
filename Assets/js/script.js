@@ -38,6 +38,8 @@ var initials=[];
 
 var scores=[];
 
+var scoreCorrect=0;
+
 var questionCounter=0;
 
 var secondsLeft=75;
@@ -62,7 +64,7 @@ var questions={
     asnwers:["blank text a1","blank text a2","blank text a3","blank text a4"],
     },
 }
-var correctAnswers=[0,1,2,3,0,2]
+var correctAnswers=[0,1,2,3,0,2];
 
 var questionsArr=[[questions.q1.question1,questions.q1.answers],[questions.q2.question2,questions.q2.asnwers],
 [questions.q3.question3,questions.q3.answers],[questions.q4.question4,questions.q4.asnwers],
@@ -89,11 +91,17 @@ answersClass.addEventListener("click",function(event){
     var element=event.target;
     if(element.matches("li")){
         // console.log(element.getAttribute("data-number"))
+
         displayQuestions();
     }
+
+    checkAnswer(element.getAttribute("data-number"));
+    questionCounter++;
 })
 
 function displayQuestions() {
+    // console.log("test")
+    // console.log(test);
     if (questionCounter>5){
         highScore();
         return;
@@ -105,7 +113,10 @@ function displayQuestions() {
         questionSection.children[1].children[i].textContent=[i+1] + ". " + questionsArr[questionCounter][1][i];
     
     }
-    questionCounter++;
+    // console.log(answer);
+
+
+
 
 }
 
@@ -115,8 +126,9 @@ function setTime(){
         secondsLeft--;
 
 
-        if(secondsLeft===0){
+        if(secondsLeft<=0){
             clearInterval(timeInterval);
+            console.log("out of time")
             highScore();
         }
     },1000);
@@ -149,7 +161,7 @@ function highScore(){
       saveButton.addEventListener("click",function(event){
         event.preventDefault();
         initialsText = initialsInput.value;
-        scoresText=secondsLeft;
+        scoresText=secondsLeft+scoreCorrect;
         // localStorage.setItem("initials",initials);
         scores.push(scoresText);
         initials.push(initialsText);
@@ -171,7 +183,7 @@ function replaceScores(){
         var initial=initials[0];
         var li=document.createElement("li")
         li.textContent=initial +" "+score;
-        console.log("initial" + initial);
+        // console.log("initial" + initial);
         scoreList.appendChild(li);
     }
     else{
@@ -182,18 +194,18 @@ for (let i = 0; i < initials.length-1; i++) {
     var initial=initials[i];
     var li=document.createElement("li")
     li.textContent=initial +" "+score;
-    console.log("for loop")
+    // console.log("for loop")
     // console.log("initial" + initial);
     // console.log(scoreList.childNodes[i]);
     scoreList.replaceChild(li,scoreList.childNodes[i]);
 }
-console.log("length " +initials.length)
-    console.log(scores);
-    console.log(initials);
+// console.log("length " +initials.length)
+    // console.log(scores);
+    // console.log(initials);
     var score=scores[initials.length-1];
     var initial=initials[initials.length-1];
     var li=document.createElement("li")
-    console.log(initial +" "+score);
+    // console.log(initial +" "+score);
     li.textContent=initial +" "+score;
     scoreList.appendChild(li);
 }
@@ -214,12 +226,27 @@ function renderScores(){
         // console.log("initial" + initial);
         scoreList.appendChild(li);
     }
-    console.log("render ")
+    // console.log("render ")
     // console.log(scoreList);
 
 }
 
+function checkAnswer(answer){
+    // var number=element.getAttribute("data-number");
+    // console.log("works");
+    // console.log("counter "+ questionCounter);
+    // console.log(typeof answer);
+    // console.log("correct "+correctAnswers[questionCounter]);
+    if(answer==correctAnswers[questionCounter]){
+        scoreCorrect+=10;
+        console.log(scoreCorrect);
+    }
+    else{
+        console.log("wrong");
+        secondsLeft -= 10;
+    }
 
+}
 
 
 init();
@@ -238,32 +265,3 @@ function storeScores(){
     localStorage.setItem("scores",JSON.stringify(scores));
     localStorage.setItem("initials",JSON.stringify(initials));
 }
-
-    // var table=document.createElement("table");
-
-
-
-    // var row1 = document.createElement('tr');
-    // var cell1 = document.createElement('td');
-    // cell1.textContent = 'Row 1, Cell 1';
-    // row1.appendChild(cell1);
-
-    // var row=document.createElement("tr");
-    // var cell=document.createElement("td");
-    // cell.textContent="initials","score";
-    // row.appendChild(cell);
-    // // var row2 = document.createElement('tr');
-    // // var cell2 = document.createElement('td');
-    // // cell2.textContent = 'Row 2, Cell 1';
-    // // row2.appendChild(cell2);
-
-    // // Add rows to the table
-    // table.appendChild(row1);
-    // table.appendChild(row);
-
-    // // Add the table to the DOM
-    // // var container = document.getElementById('table-container');
-    // highScore.appendChild(table);
-    // console.log(table);
-    // console.log(container);
-    // container.appendChild(table);
