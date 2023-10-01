@@ -22,15 +22,21 @@ var startButton=document.querySelector(".start-button");
 
 var questionSection=document.querySelector(".questions");
 
-var highScoreSection=document.querySelector(".highscore");
+var highScoreSection=document.querySelector("#highscore");
 
 var answersClass=document.querySelector(".answers");
 
 var timeEl=document.querySelector(".timer");
 
+var scoreList=document.querySelector("#scores");
+
 var saveButton;
 
 var initialsInput;
+
+var initials=[];
+
+var scores=[];
 
 var questionCounter=0;
 
@@ -92,7 +98,7 @@ function displayQuestions() {
         highScore();
         return;
     }
-    console.log(questionCounter)
+    // console.log(questionCounter)
     questionSection.children[0].textContent=questionsArr[questionCounter][0];
     for (let i = 0; i < 4; i++) {
 
@@ -105,9 +111,10 @@ function displayQuestions() {
 
 function setTime(){
     timeInterval =setInterval(function(){
+        timeEl.textContent="Time Remaining " +secondsLeft;
         secondsLeft--;
 
-        timeEl.textContent="Time Remaining " +secondsLeft;
+
         if(secondsLeft===0){
             clearInterval(timeInterval);
             highScore();
@@ -116,9 +123,9 @@ function setTime(){
 }
 
 function highScore(){
-    console.log("high score")
+    // console.log("high score")
     clearInterval(timeInterval);
-    console.log(secondsLeft);
+    // console.log(secondsLeft);
     timeEl.textContent="";
     questionSection.textContent="";
     const form = document.createElement('form');
@@ -136,23 +143,127 @@ function highScore(){
       saveButton=document.querySelector("#save");
 
       initialsInput=document.querySelector("#initials");
-
-      console.log(saveButton);
+      storeScores();
+      renderScores();
+    //   console.log(saveButton);
       saveButton.addEventListener("click",function(event){
         event.preventDefault();
-        var initials = initialsInput.value;
-        localStorage.setItem("initials",initials);
-        console.log(initials);
-        renderInitials();
-    
+        initialsText = initialsInput.value;
+        scoresText=secondsLeft;
+        // localStorage.setItem("initials",initials);
+        scores.push(scoresText);
+        initials.push(initialsText);
+        initialsInput.value="";
+        // console.log(scores);
+        storeScores();
+        // renderScores();
+        replaceScores();
     })
 
 }
 
 
+function replaceScores(){
+    console.log("replace ")
+    if(scores.length===1){
+        // console.log("null")
+        var score=scores[0];
+        var initial=initials[0];
+        var li=document.createElement("li")
+        li.textContent=initial +" "+score;
+        console.log("initial" + initial);
+        scoreList.appendChild(li);
+    }
+    else{
+        console.log("length " +initials.length);
+for (let i = 0; i < initials.length-1; i++) { 
+    // li.textContent="";
+    var score=scores[i];
+    var initial=initials[i];
+    var li=document.createElement("li")
+    li.textContent=initial +" "+score;
+    console.log("for loop")
+    // console.log("initial" + initial);
+    // console.log(scoreList.childNodes[i]);
+    scoreList.replaceChild(li,scoreList.childNodes[i]);
+}
+console.log("length " +initials.length)
+    console.log(scores);
+    console.log(initials);
+    var score=scores[initials.length-1];
+    var initial=initials[initials.length-1];
+    var li=document.createElement("li")
+    console.log(initial +" "+score);
+    li.textContent=initial +" "+score;
+    scoreList.appendChild(li);
+}
+
+// console.log("replace ")
+// console.log(scoreList);
+}
 
 
+function renderScores(){
 
-function renderInitials(){
+    for (var i = 0; i < initials.length; i++) { 
+        // li.textContent="";
+        var score=scores[i];
+        var initial=initials[i];
+        var li=document.createElement("li")
+        li.textContent=initial +" "+score;
+        // console.log("initial" + initial);
+        scoreList.appendChild(li);
+    }
+    console.log("render ")
+    // console.log(scoreList);
 
 }
+
+
+
+
+init();
+
+function init(){
+    var storedinitials=JSON.parse(localStorage.getItem("initials"));
+    var storedScores=JSON.parse(localStorage.getItem("scores"));
+
+    if (storedScores !==null){
+        scores=storedScores;
+        initials=storedinitials
+    }   
+}
+
+function storeScores(){
+    localStorage.setItem("scores",JSON.stringify(scores));
+    localStorage.setItem("initials",JSON.stringify(initials));
+}
+
+    // var table=document.createElement("table");
+
+
+
+    // var row1 = document.createElement('tr');
+    // var cell1 = document.createElement('td');
+    // cell1.textContent = 'Row 1, Cell 1';
+    // row1.appendChild(cell1);
+
+    // var row=document.createElement("tr");
+    // var cell=document.createElement("td");
+    // cell.textContent="initials","score";
+    // row.appendChild(cell);
+    // // var row2 = document.createElement('tr');
+    // // var cell2 = document.createElement('td');
+    // // cell2.textContent = 'Row 2, Cell 1';
+    // // row2.appendChild(cell2);
+
+    // // Add rows to the table
+    // table.appendChild(row1);
+    // table.appendChild(row);
+
+    // // Add the table to the DOM
+    // // var container = document.getElementById('table-container');
+    // highScore.appendChild(table);
+    // console.log(table);
+    // console.log(container);
+    // container.appendChild(table);
