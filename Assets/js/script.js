@@ -4,12 +4,12 @@
 //timer counts down one second itervals done
 //eventlisten on each answer done 
 //if right new question done 
-//if wrong subtract from time and next question
-//game over when time =0 go to high score screen
-//game over if end of questions
-//high score screen box for user to enter intitals
-//save to local storage activity 26
-//records high score
+//if wrong subtract from time and next question done
+//game over when time =0 go to high score screen done
+//game over if end of questions done 
+//high score screen box for user to enter intitals done
+//save to local storage activity 26 done
+//records high score done
 
 
 // put question and answers in obejct
@@ -24,6 +24,8 @@ var questionSection=document.querySelector(".questions");
 
 var highScoreSection=document.querySelector("#highscore");
 
+var scoreScreen=document.querySelector(".score-screen")
+
 var answersClass=document.querySelector(".answers");
 
 var timeEl=document.querySelector(".timer");
@@ -31,6 +33,8 @@ var timeEl=document.querySelector(".timer");
 var scoreList=document.querySelector("#scores");
 
 var saveButton;
+
+var replayButtonId;
 
 var initialsInput;
 
@@ -76,7 +80,9 @@ var timeInterval;
 // console.log(questionsArr[0]);
 // console.log(questionsArr);
 
-
+scoreScreen.addEventListener("click",function(){
+    highScore();
+})
 
 // console.log(questionSection);
 startButton.addEventListener("click",function(event){
@@ -106,7 +112,7 @@ function displayQuestions() {
         highScore();
         return;
     }
-    // console.log(questionCounter)
+    console.log(questionCounter)
     questionSection.children[0].textContent=questionsArr[questionCounter][0];
     for (let i = 0; i < 4; i++) {
 
@@ -114,17 +120,13 @@ function displayQuestions() {
     
     }
     // console.log(answer);
-
-
-
-
 }
 
 function setTime(){
+    timeEl.textContent="Time Remaining " +secondsLeft;
     timeInterval =setInterval(function(){
-        timeEl.textContent="Time Remaining " +secondsLeft;
         secondsLeft--;
-
+        timeEl.textContent="Time Remaining " +secondsLeft;
 
         if(secondsLeft<=0){
             clearInterval(timeInterval);
@@ -139,7 +141,12 @@ function highScore(){
     clearInterval(timeInterval);
     // console.log(secondsLeft);
     timeEl.textContent="";
-    questionSection.textContent="";
+    questionSection.children[0].textContent="";
+    for (let i = 0; i < 4; i++) {
+        questionSection.children[1].children[i].textContent="";
+    }
+
+    // questionSection.textContent="";
     const form = document.createElement('form');
       
       // Add input fields to the form
@@ -172,6 +179,29 @@ function highScore(){
         replaceScores();
     })
 
+    replay();
+
+
+}
+
+function replay(){
+    var replayButton=document.createElement("section")
+    replayButton.innerHTML='<button id="replay">Replay</button>';
+    highScoreSection.appendChild(replayButton);
+    replayButtonId=document.querySelector("#replay");
+    replayButtonId.addEventListener("click",function(event){
+        event.preventDefault();
+        highScoreSection.textContent="";
+        scoreList.textContent="";
+        console.log("works")
+        secondsLeft=75;
+        questionCounter=0;
+        setTime();
+        displayQuestions();
+        
+
+    })
+
 }
 
 
@@ -188,17 +218,17 @@ function replaceScores(){
     }
     else{
         console.log("length " +initials.length);
-for (let i = 0; i < initials.length-1; i++) { 
-    // li.textContent="";
-    var score=scores[i];
-    var initial=initials[i];
-    var li=document.createElement("li")
-    li.textContent=initial +" "+score;
-    // console.log("for loop")
-    // console.log("initial" + initial);
-    // console.log(scoreList.childNodes[i]);
-    scoreList.replaceChild(li,scoreList.childNodes[i]);
-}
+// for (let i = 0; i < initials.length-1; i++) { 
+//     // li.textContent="";
+//     var score=scores[i];
+//     var initial=initials[i];
+//     var li=document.createElement("li")
+//     li.textContent=initial +" "+score;
+//     // console.log("for loop")
+//     // console.log("initial" + initial);
+//     // console.log(scoreList.childNodes[i]);
+//     scoreList.replaceChild(li,scoreList.childNodes[i]);
+// }
 // console.log("length " +initials.length)
     // console.log(scores);
     // console.log(initials);
