@@ -9,13 +9,14 @@
 </head>
 <body>
     <header>
-        <p class="score-screen">See Score</p>
+        <p id="score-screen">See Score</p>
         <p class="time"></p>
     </header>
     <main>
-        <section class="start-quiz">
+        <section id="start-quiz">
         <h1>Code Quiz</h1>
-        <p>Press the button below to start the quiz.</p>
+        <h2>Press the button below to start the quiz.</h2>
+        <p> Your score will be accombination of 10 points for every question answered correctly plus the time remaining.</p>
         <button class="start-button">
             Start Quiz
         </button>
@@ -24,9 +25,9 @@
             <h2 class="timer"></h2>
         </section>
 
-        <section class="questions">
+        <section id="questions">
             <h2></h2>
-            <ol class="answers">
+            <ol id="answers">
                 <!-- add in data attributes -->
                 <li data-number="0" ></li>
                 <li data-number="1"></li>

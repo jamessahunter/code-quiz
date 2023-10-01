@@ -16,17 +16,17 @@
 //put all questions in array
 //show and remove text based of button presses
 
-var startQuiz=document.querySelector(".start-quiz");
+var startQuiz=document.querySelector("#start-quiz");
 
 var startButton=document.querySelector(".start-button");
 
-var questionSection=document.querySelector(".questions");
+var questionSection=document.querySelector("#questions");
 
 var highScoreSection=document.querySelector("#highscore");
 
-var scoreScreen=document.querySelector(".score-screen")
+var scoreScreen=document.querySelector("#score-screen")
 
-var answersClass=document.querySelector(".answers");
+var answersId=document.querySelector("#answers");
 
 var timeEl=document.querySelector(".timer");
 
@@ -49,26 +49,26 @@ var questionCounter=0;
 var secondsLeft=75;
 
 var questions={
-    q1:{question1:"hom many blah blah blalh q1",
-    answers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    q1:{question1:"Which of theses is not a git command?",
+    answers:["git pull","git add","git commit","git back"],
     },
-    q2:{question2:"hom many blah blah blalh q2",
-    asnwers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    q2:{question2:"Which of these is not a semantic html element?",
+    asnwers:["<article>","<section>","<div>","<nav>"],
     },
-    q3:{question3:"hom many blah blah blalh q3",
-    answers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    q3:{question3:"Which selects an id in a CSS file?",
+    answers:["a #","a .","a space","a -"],
     },
-    q4:{question4:"hom many blah blah blalh q4",
-    asnwers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    q4:{question4:"Which of these does not go around content?",
+    asnwers:["fill","padding","margin","border"],
     },
-    q5:{question5:"hom many blah blah blalh q5",
-    answers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    q5:{question5:"Which of these is flex not a shorthand for?",
+    answers:["flex-basis","flex-display","flex-grow","flex-shrink"],
     },
-    q6:{question6:"hom many blah blah blalh q6",
-    asnwers:["blank text a1","blank text a2","blank text a3","blank text a4"],
+    q6:{question6:"Which of these is not a JavaScript datatype?",
+    asnwers:["string","bigint","char","symbol"],
     },
 }
-var correctAnswers=[0,1,2,3,0,2];
+var correctAnswers=[3,2,0,0,1,2];
 
 var questionsArr=[[questions.q1.question1,questions.q1.answers],[questions.q2.question2,questions.q2.asnwers],
 [questions.q3.question3,questions.q3.answers],[questions.q4.question4,questions.q4.asnwers],
@@ -88,21 +88,23 @@ scoreScreen.addEventListener("click",function(){
 startButton.addEventListener("click",function(event){
     // event.stopPropagation();
     // mainTag.setAttribute("style","color:blue");
-    startQuiz.textContent="";
+    startQuiz.style.display="none";
+    // startQuiz.textContent="";
     setTime();
     displayQuestions();
 })
 
-answersClass.addEventListener("click",function(event){
+answersId.addEventListener("click",function(event){
     var element=event.target;
     if(element.matches("li")){
         // console.log(element.getAttribute("data-number"))
-
+        questionCounter++;
         displayQuestions();
     }
 
     checkAnswer(element.getAttribute("data-number"));
-    questionCounter++;
+
+
 })
 
 function displayQuestions() {
@@ -112,7 +114,7 @@ function displayQuestions() {
         highScore();
         return;
     }
-    console.log(questionCounter)
+    // console.log(questionCounter)
     questionSection.children[0].textContent=questionsArr[questionCounter][0];
     for (let i = 0; i < 4; i++) {
 
@@ -141,11 +143,21 @@ function highScore(){
     clearInterval(timeInterval);
     // console.log(secondsLeft);
     timeEl.textContent="";
-    questionSection.children[0].textContent="";
-    for (let i = 0; i < 4; i++) {
-        questionSection.children[1].children[i].textContent="";
-    }
+    questionSection.style.display="none";
+    scoreScreen.style.display="none";
+    startQuiz.style.display="none";
+    // questionSection.children[0].textContent="";
+    // for (let i = 0; i < 4; i++) {
+    //     questionSection.children[1].children[i].textContent="";
+    // }
+    scoresText=secondsLeft+scoreCorrect;
 
+    var p=document.createElement('p');
+    var h2=document.createElement('h2');
+    h2.textContent="Your score is "+ scoresText
+    p.textContent=" Enter your Initials and hit save to have your score added to the scoreboard."
+    highScoreSection.appendChild(h2);
+    highScoreSection.appendChild(p);
     // questionSection.textContent="";
     const form = document.createElement('form');
       
@@ -168,7 +180,6 @@ function highScore(){
       saveButton.addEventListener("click",function(event){
         event.preventDefault();
         initialsText = initialsInput.value;
-        scoresText=secondsLeft+scoreCorrect;
         // localStorage.setItem("initials",initials);
         scores.push(scoresText);
         initials.push(initialsText);
@@ -176,7 +187,7 @@ function highScore(){
         // console.log(scores);
         storeScores();
         // renderScores();
-        replaceScores();
+        appendScore();
     })
 
     replay();
@@ -194,8 +205,10 @@ function replay(){
         highScoreSection.textContent="";
         scoreList.textContent="";
         console.log("works")
+        scoreCorrect=0;
         secondsLeft=75;
         questionCounter=0;
+        questionSection.style.display="block"
         setTime();
         displayQuestions();
         
@@ -205,8 +218,8 @@ function replay(){
 }
 
 
-function replaceScores(){
-    console.log("replace ")
+function appendScore(){
+    // console.log("replace ")
     if(scores.length===1){
         // console.log("null")
         var score=scores[0];
@@ -218,18 +231,7 @@ function replaceScores(){
     }
     else{
         console.log("length " +initials.length);
-// for (let i = 0; i < initials.length-1; i++) { 
-//     // li.textContent="";
-//     var score=scores[i];
-//     var initial=initials[i];
-//     var li=document.createElement("li")
-//     li.textContent=initial +" "+score;
-//     // console.log("for loop")
-//     // console.log("initial" + initial);
-//     // console.log(scoreList.childNodes[i]);
-//     scoreList.replaceChild(li,scoreList.childNodes[i]);
-// }
-// console.log("length " +initials.length)
+
     // console.log(scores);
     // console.log(initials);
     var score=scores[initials.length-1];
@@ -265,9 +267,9 @@ function checkAnswer(answer){
     // var number=element.getAttribute("data-number");
     // console.log("works");
     // console.log("counter "+ questionCounter);
-    // console.log(typeof answer);
-    // console.log("correct "+correctAnswers[questionCounter]);
-    if(answer==correctAnswers[questionCounter]){
+    // console.log( answer);
+    // console.log("correct "+correctAnswers[questionCounter-1]);
+    if(answer==correctAnswers[questionCounter-1]){
         scoreCorrect+=10;
         console.log(scoreCorrect);
     }
@@ -275,6 +277,7 @@ function checkAnswer(answer){
         console.log("wrong");
         secondsLeft -= 10;
     }
+
 
 }
 
