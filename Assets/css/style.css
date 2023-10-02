@@ -1,30 +1,24 @@
+/* sets padding and font size for the body */
 body{
     padding: 10px;
     font-size: 32px;
 }
-
+/* aligns all the text center */
 main{
     text-align: center;
 
 }
-ol{
+/* no styling for the lists */
+ol,ul{
     list-style-type: none;
 }
-ul{
-    list-style-type: none;
-}
-h1{
+/* padding for the h1, h2, p elements */
+h1,h2,p{
     padding: 10px;
 }
-p{
-    padding: 10px;
-}
-h2{
-    padding: 10px;
-}
-ol li{
-    /* position: relative; */
 
+/* centering the answers and adding padding */
+ol li{
     text-align: left;
     margin-left: auto;
     margin-right: auto;
@@ -35,6 +29,7 @@ ol li{
 
 }
 
+/* addding background to the list */
 ol li,button{
     border-radius: 8px;
     cursor: pointer;
@@ -42,18 +37,14 @@ ol li,button{
     color: white;
     padding: 5px;
 }
-
+/* adds hover to buttons and answers to change background and text color */
 ol li:hover,button:hover{
 
     background-color: #a881af;
     color: black;
 
 }
-
+/* makes inout size match */
 input{
     font-size: 32px;
-}
-button{
-    text-align: center;
-    text-decoration: none;
 }

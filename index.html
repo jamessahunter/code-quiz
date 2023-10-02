@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/reset.css" />
+    <!-- sets title and imports css reset and style sheet -->
+    <link rel="stylesheet" href="./assets/css/reset.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Code Quiz</title>
 </head>
 <body>
+    <!-- creates header for the score screen link -->
     <header>
-        <p id="score-screen">See Score</p>
-        <!-- <p class="time"></p> -->
+        <p id="see-scores">See Scores</p>
     </header>
     <main>
+        <!-- start quiz section with button and info about quiz -->
         <section id="start-quiz">
         <h1>Code Quiz</h1>
         <h2>Press the button below to start the quiz.</h2>
@@ -21,28 +23,29 @@
             Start Quiz
         </button>
         </section>
+        <!-- section of the timer element -->
         <section >
             <h2 class="timer"></h2>
         </section>
-
+        <!-- section for the questions and answers-->
         <section id="questions">
             <h2></h2>
             <ol id="answers">
-                <!-- add in data attributes -->
+                <!-- answers with data attributes to know which has been clicked on -->
+                <!-- list built in as the number of elements wont change -->
                 <li data-number="0" ></li>
                 <li data-number="1"></li>
                 <li data-number="2"></li>
                 <li data-number="3"></li>
             </ol>
         </section>
-        <section id="highscore">
-            <h1></h1>
-            <p></p>
+        <section id="score-section">
         </section>
+        <!-- list of the entered scores -->
         <ul id="scores"></ul>
     </main>
 
-
+    <!-- imports the javascript file -->
     <script src="Assets/js/script.js"></script>
 </body>
 </html>
