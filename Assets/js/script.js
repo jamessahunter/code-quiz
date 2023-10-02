@@ -81,14 +81,17 @@ var timeInterval;
 // console.log(questionsArr);
 
 scoreScreen.addEventListener("click",function(){
-    highScore();
+    var noScore=1;
+    highScore(noScore);
 })
 
 // console.log(questionSection);
 startButton.addEventListener("click",function(event){
     // event.stopPropagation();
     // mainTag.setAttribute("style","color:blue");
+    scoreScreen.style.display="none";
     startQuiz.style.display="none";
+    
     // startQuiz.textContent="";
     setTime();
     displayQuestions();
@@ -108,6 +111,8 @@ answersId.addEventListener("click",function(event){
 })
 
 function displayQuestions() {
+    questionSection.style.display="block";
+
     // console.log("test")
     // console.log(test);
     if (questionCounter>5){
@@ -118,17 +123,17 @@ function displayQuestions() {
     questionSection.children[0].textContent=questionsArr[questionCounter][0];
     for (let i = 0; i < 4; i++) {
 
-        questionSection.children[1].children[i].textContent=[i+1] + ". " + questionsArr[questionCounter][1][i];
+        questionSection.children[1].children[i].textContent=[i+1]+". "+ questionsArr[questionCounter][1][i];
     
     }
     // console.log(answer);
 }
 
 function setTime(){
-    timeEl.textContent="Time Remaining " +secondsLeft;
+    timeEl.textContent="Time Remaining: " +secondsLeft;
     timeInterval =setInterval(function(){
         secondsLeft--;
-        timeEl.textContent="Time Remaining " +secondsLeft;
+        timeEl.textContent="Time Remaining: " +secondsLeft;
 
         if(secondsLeft<=0){
             clearInterval(timeInterval);
@@ -138,14 +143,25 @@ function setTime(){
     },1000);
 }
 
-function highScore(){
+function highScore(check){
     // console.log("high score")
-    clearInterval(timeInterval);
-    // console.log(secondsLeft);
+    var h1=document.createElement('h1');
+    h1.textContent="Scores";
+    highScoreSection.appendChild(h1);
+
     timeEl.textContent="";
     questionSection.style.display="none";
     scoreScreen.style.display="none";
     startQuiz.style.display="none";
+    if(check){
+        console.log("works")
+        storeScores();
+        renderScores();
+    }
+    else{
+    clearInterval(timeInterval);
+    // console.log(secondsLeft);
+
     // questionSection.children[0].textContent="";
     // for (let i = 0; i < 4; i++) {
     //     questionSection.children[1].children[i].textContent="";
@@ -154,8 +170,10 @@ function highScore(){
 
     var p=document.createElement('p');
     var h2=document.createElement('h2');
+
     h2.textContent="Your score is "+ scoresText
-    p.textContent=" Enter your Initials and hit save to have your score added to the scoreboard."
+    p.textContent="Enter your Initials and hit save to have your score added to the scoreboard."
+
     highScoreSection.appendChild(h2);
     highScoreSection.appendChild(p);
     // questionSection.textContent="";
@@ -180,6 +198,9 @@ function highScore(){
       saveButton.addEventListener("click",function(event){
         event.preventDefault();
         initialsText = initialsInput.value;
+        if(initialsText===""){
+            return;
+        }
         // localStorage.setItem("initials",initials);
         scores.push(scoresText);
         initials.push(initialsText);
@@ -189,7 +210,7 @@ function highScore(){
         // renderScores();
         appendScore();
     })
-
+    }
     replay();
 
 
@@ -285,6 +306,8 @@ function checkAnswer(answer){
 init();
 
 function init(){
+    questionSection.style.display="none";
+
     var storedinitials=JSON.parse(localStorage.getItem("initials"));
     var storedScores=JSON.parse(localStorage.getItem("scores"));
 
