@@ -17,7 +17,7 @@ The purpose of this project was to create a quiz that tests the users knowledge 
 
 ## Usage
 
-The user enters in their desired password length between 8 and 128 and accecpts or rejects the criteria of type of characters used. Then a password is generated and displayed on the page.
+The user starts the quiz and tries to answer the questions in the alloted time. For each correct question 10 points are added to thier score as well as the time remaining once finished with the quiz. The user loses 10 seconds for every question the answer incorrectly. The user is taken to the score board and presented withe their score if their time expires or they answer all the questions. They then have the option to enter their initial and save their score to the score board
 
 ![Usage Example](/Assets/Code%20Quiz.gif)
 
